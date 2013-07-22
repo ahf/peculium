@@ -1,0 +1,7 @@
+*.app
+*.beam
+.eunit/
+.qc/
+README.html
+deps/
+rel/peculium/
