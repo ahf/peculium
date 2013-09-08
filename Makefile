@@ -2,7 +2,7 @@ PROJECT = peculium
 
 DEPS = peculium_core
 
-dep_peculium_core = https://github.com/ahf/peculium_core.git master
+dep_peculium_core = git@github.com:ahf/peculium_core.git master
 
 release: clean-release
 	relx -o rel/$(PROJECT)
