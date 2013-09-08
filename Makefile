@@ -21,7 +21,7 @@ release: compile
 	rebar -v skip_deps=true generate
 
 console: release
-	./rel/peculium/bin/peculium console
+	./rel/peculium/bin/peculium console -pa ../../deps/*/ebin
 
 eunit:
 	rebar skip_deps=true eunit
