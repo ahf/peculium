@@ -1,52 +1,18 @@
-REPOSITORY = peculium
-APPS = crypto kernel stdlib sasl inets syntax_tools mnesia eunit release
+PROJECT = peculium
 
-all: compile
+DEPS = peculium_core
 
-test: eunit
+dep_peculium_core = https://github.com/ahf/peculium_core.git master
 
-compile:
-	rebar compile skip_deps=true
+release: clean-release
+	relx -o rel/$(PROJECT)
 
-get-deps:
-	rebar get-deps
-
-build-deps:
-	rebar compile
-
-clean:
-	rebar clean
-
-release: compile
-	rebar -v skip_deps=true generate
+clean-release:
+	rm -rf rel/$(PROJECT)
 
 console: release
 	./rel/peculium/bin/peculium console -pa ../../deps/*/ebin
 
-eunit:
-	rebar skip_deps=true eunit
+.PHONY: release clean-release console
 
-quickcheck:
-	rebar skip_deps=true qc
-
-qc: quickcheck
-
-doc:
-	rebar skip_deps=true doc
-
-PLT = $(HOME)/.$(REPOSITORY)_dialyzer_plt
-
-check_plt: compile
-	dialyzer --check_plt --plt $(PLT) --apps $(APPS) deps/*/ebin
-
-build_plt: compile
-	dialyzer --build_plt --output_plt $(PLT) --apps $(APPS) deps/*/ebin
-
-dialyzer:
-	dialyzer --fullpath --plt $(PLT) ebin/
-
-clean_plt:
-	rm $PLT
-
-.PHONY: all get-deps build-deps compile clean eunit doc test dialyzer \
-	check_plt build_plt clean_plt
+include erlang.mk
